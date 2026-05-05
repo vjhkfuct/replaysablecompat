@@ -2,6 +2,7 @@ package com.vjhkfuct.replaysablecompat.compat;
 
 import com.vjhkfuct.replaysablecompat.ReplaySableCompat;
 import dev.ryanhcode.sable.mixinterface.udp.ConnectionExtension;
+import dev.ryanhcode.sable.network.packets.tcp.ClientboundFreezePlayerPacket;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.Connection;
 import net.minecraft.network.protocol.common.ClientboundCustomPayloadPacket;
@@ -36,6 +37,10 @@ public final class ReplayRecordingBridge {
     }
 
     public static void mirrorClientboundPayload(final CustomPacketPayload payload) {
+        if (!shouldRecordPayload(payload)) {
+            return;
+        }
+
         final Object packetListener = getPacketListener();
         if (packetListener == null) {
             return;
@@ -53,6 +58,12 @@ public final class ReplayRecordingBridge {
         } catch (final ReflectiveOperationException e) {
             logRecordingLookupFailure("Failed to mirror Sable payload into ReplayMod recording", e);
         }
+    }
+
+    private static boolean shouldRecordPayload(final CustomPacketPayload payload) {
+        // This packet only drives the local live player's client-side anchor/tracking state.
+        // Replaying it later re-applies that local camera lock to the replay viewpoint.
+        return !(payload instanceof ClientboundFreezePlayerPacket);
     }
 
     public static boolean shouldSuppressUdpActivation() {
