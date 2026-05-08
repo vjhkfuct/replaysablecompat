@@ -28,7 +28,9 @@ From the project root:
 .\gradlew.bat build
 ```
 
-The build expects compatible upstream jars for:
+The Gradle build resolves its compile-time dependency on `Sable` from the
+public `RyanHCode Maven` repository and does not require sibling workspace jars.
 
-- `sable-neoforge-*.jar`
-- `reforgedplaymod-*.jar`
+`ReplayMod` integration is implemented through reflection and string-targeted
+mixins, so `reforgedplaymod` is still a required runtime mod in-game, but it is
+not required on the compile classpath to build this project.
