@@ -4,9 +4,14 @@
   "package": "com.vjhkfuct.replaysablecompat.mixin",
   "compatibilityLevel": "JAVA_21",
   "client": [
+    "replay.FullReplaySenderMixin",
+    "sable.ActiveSableCompanionMixin",
     "sable.ClientboundSableUDPActivationPacketMixin",
+    "sable.EntitySubLevelRotationHelperMixin",
+    "sable.EntitySubLevelUtilMixin",
     "sable.SableUDPChannelHandlerClientMixin",
-    "sable.SableUDPServerMixin"
+    "sable.SableUDPServerMixin",
+    "vanilla.EntityMixin"
   ],
   "injectors": {
     "defaultRequire": 1
